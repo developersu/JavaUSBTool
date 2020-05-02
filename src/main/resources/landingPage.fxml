@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+
+<AnchorPane minHeight="400.0" minWidth="400.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javausbtool.controllers.LandingPageController">
+   <children>
+      <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">
+               <items>
+                  <VBox spacing="5.0">
+                     <children>
+                        <TitledPane expanded="false" text="USB Connection configuration">
+                           <content>
+                              <VBox spacing="5.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                       <children>
+                                          <Label minWidth="100.0" text="VID" />
+                                          <TextField fx:id="vidTf" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                       <children>
+                                          <Label minWidth="100.0" text="PID" />
+                                          <TextField fx:id="pidTf" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                       <children>
+                                          <Label minWidth="100.0" text="Interface" />
+                                          <TextField fx:id="devInterfaceTf" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                       <children>
+                                          <Label minWidth="100.0" text="Configuration" />
+                                          <TextField fx:id="devConfigurationTf" />
+                                       </children>
+                                    </HBox>
+                                    <CheckBox fx:id="handleKernelDrvDetachCb" mnemonicParsing="false" text="Automatically handle kernel driver detach" />
+                                    <CheckBox fx:id="mandatorySoftResetCb" mnemonicParsing="false" text="Perform soft-reset device once handle" />
+                                 </children>
+                              </VBox>
+                           </content>
+                        </TitledPane>
+                        <HBox alignment="CENTER_LEFT" spacing="5.0">
+                           <children>
+                              <Button fx:id="changeSaveToBtn" mnemonicParsing="false">
+                                 <graphic>
+                                    <SVGPath content="M3,4C1.89,4 1,4.89 1,6V18A2,2 0 0,0 3,20H11V18.11L21,8.11V8C21,6.89 20.1,6 19,6H11L9,4H3M21.04,11.13C20.9,11.13 20.76,11.19 20.65,11.3L19.65,12.3L21.7,14.35L22.7,13.35C22.92,13.14 22.92,12.79 22.7,12.58L21.42,11.3C21.31,11.19 21.18,11.13 21.04,11.13M19.07,12.88L13,18.94V21H15.06L21.12,14.93L19.07,12.88Z" />
+                                 </graphic>
+                              </Button>
+                              <Label text="Save recieved to:" />
+                              <Label fx:id="saveToLbl" />
+                           </children>
+                        </HBox>
+                        <Separator prefWidth="200.0" />
+                        <HBox alignment="CENTER_LEFT" spacing="5.0">
+                           <children>
+                              <Label text="NS read buffer size:" />
+                              <TextField fx:id="readBufferSizeTf" />
+                              <Label text="(e.g. 512 or 4096)" />
+                           </children>
+                        </HBox>
+                        <RadioButton fx:id="readOnStartRb" mnemonicParsing="false" text="Read on start" />
+                        <HBox alignment="CENTER_LEFT" spacing="5.0">
+                           <children>
+                              <RadioButton fx:id="writeOnStartRb" mnemonicParsing="false" text="Write on start" />
+                              <Button fx:id="fileToSendBtn" mnemonicParsing="false">
+                                 <graphic>
+                                    <SVGPath content="M3,4C1.89,4 1,4.89 1,6V18A2,2 0 0,0 3,20H11V18.11L21,8.11V8C21,6.89 20.1,6 19,6H11L9,4H3M21.04,11.13C20.9,11.13 20.76,11.19 20.65,11.3L19.65,12.3L21.7,14.35L22.7,13.35C22.92,13.14 22.92,12.79 22.7,12.58L21.42,11.3C21.31,11.19 21.18,11.13 21.04,11.13M19.07,12.88L13,18.94V21H15.06L21.12,14.93L19.07,12.88Z" />
+                                 </graphic>
+                              </Button>
+                              <Label fx:id="sendFileLbl" text="?" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" spacing="5.0">
+                           <children>
+                              <Button fx:id="startBtn" mnemonicParsing="false" text="Start" />
+                              <Button fx:id="stopBtn" mnemonicParsing="false" text="Stop" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </VBox>
+                  <TextArea fx:id="logArea" editable="false" />
+               </items>
+            </SplitPane>
+            <AnchorPane>
+               <children>
+                  <ProgressBar fx:id="progressBar" progress="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</AnchorPane>
