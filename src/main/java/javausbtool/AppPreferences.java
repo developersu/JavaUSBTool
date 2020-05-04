@@ -49,10 +49,10 @@ public class AppPreferences {
     public short getPid(){ return (short) preferences.getInt("pid", 0x3000); }
     public void setPid(short value){ preferences.putInt("pid", value); }
 
-    public int getInterface(){ return preferences.getInt("interface", 1); }
+    public int getInterface(){ return preferences.getInt("interface", 0); }
     public void setInterface(int value){ preferences.putInt("interface", value); }
 
-    public int getDeviceConfiguration(){ return preferences.getInt("devconfiguration", 0); }
+    public int getDeviceConfiguration(){ return preferences.getInt("devconfiguration", 1); }
     public void setDeviceConfiguration(int value){ preferences.putInt("devconfiguration", value); }
 
     public boolean getHandleKernelDrvAutoDetach(){ return preferences.getBoolean("handle_kernel_driver", true); }
