@@ -57,7 +57,7 @@ class UsbLoop {
 
         logPrinter.print("============= UsbProtocol =============");
 
-        this.saveRepliesFolder = new File(saveRepliesTo+File.separator+ LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+        this.saveRepliesFolder = new File(saveRepliesTo+File.separator+ LocalTime.now().format(DateTimeFormatter.ofPattern("HH-mm-ss")));
         saveRepliesFolder.mkdirs();
 
         logPrinter.print("Save replies to dir: "+saveRepliesFolder.getName());

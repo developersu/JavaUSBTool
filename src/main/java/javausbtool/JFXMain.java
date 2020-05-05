@@ -26,12 +26,9 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javausbtool.controllers.LandingPageController;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 public class JFXMain extends Application {
 
-    public static final String appVersion = "v0.2";
+    public static final String appVersion = "v0.3";
 
     @Override
     public void start(Stage primaryStage) throws Exception{
