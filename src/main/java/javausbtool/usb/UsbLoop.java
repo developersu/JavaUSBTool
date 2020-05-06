@@ -29,9 +29,6 @@ import java.nio.IntBuffer;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Tinfoil processing
- * */
 class UsbLoop {
 
     private LogPrinter logPrinter;
@@ -55,7 +52,7 @@ class UsbLoop {
         this.readBufferCapacity = readBufferCapacity;
         this.readCounter = 0;
 
-        logPrinter.print("============= UsbProtocol =============");
+        logPrinter.print("============= USB =============");
 
         this.saveRepliesFolder = new File(saveRepliesTo+File.separator+ LocalTime.now().format(DateTimeFormatter.ofPattern("HH-mm-ss")));
         saveRepliesFolder.mkdirs();

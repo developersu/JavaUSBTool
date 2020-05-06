@@ -28,7 +28,7 @@ import javausbtool.controllers.LandingPageController;
 
 public class JFXMain extends Application {
 
-    public static final String appVersion = "v0.3";
+    public static final String appVersion = "v0.4";
 
     @Override
     public void start(Stage primaryStage) throws Exception{

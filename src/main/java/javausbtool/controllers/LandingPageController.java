@@ -46,7 +46,7 @@ public class LandingPageController implements Initializable {
             readBufferSizeTf;
 
     @FXML
-    private Label saveToLbl, sendFileLbl;
+    private Label saveToLbl, sendFileLbl, decHexReprLbl;
 
     @FXML
     private CheckBox handleKernelDrvDetachCb,
@@ -59,6 +59,9 @@ public class LandingPageController implements Initializable {
     @FXML
     private RadioButton readOnStartRb,
             writeOnStartRb;
+
+    @FXML
+    private MenuButton dexHexMenuItem;
 
     private String previouslyOpenedPath;
     private File writeOnStartFile;
@@ -77,14 +80,89 @@ public class LandingPageController implements Initializable {
         handleKernelDrvDetachCb.setSelected(pref.getHandleKernelDrvAutoDetach());
         mandatorySoftResetCb.setSelected(pref.getSoftResetOnHandle());
 
-        readBufferSizeTf.setText(Integer.toString(pref.getReadBufferSize()));
+        if (pref.getBufAsHex())
+            readBufferSizeTf.setText(String.format("%x", pref.getReadBufferSize()));
+        else
+            readBufferSizeTf.setText(String.format("%d", pref.getReadBufferSize()));
 
         vidTf.setTextFormatter(getNumericTextFormatter());
         pidTf.setTextFormatter(getNumericTextFormatter());
         devConfigurationTf.setTextFormatter(getNumericTextFormatter());
         devConfigurationTf.setTextFormatter(getNumericTextFormatter());
 
-        readBufferSizeTf.setTextFormatter(getNumericTextFormatter());
+        MenuItem decItem = new MenuItem("Dec");
+        decItem.setOnAction(event -> {
+            dexHexMenuItem.setText("Dec");
+
+            String oldValue = decHexReprLbl.getText();
+
+            readBufferSizeTf.setTextFormatter(new TextFormatter<>(change -> {
+                String text = change.getControlNewText();
+                if (text.matches("^[0-9]{0,}$")) {
+                    if (! text.isEmpty()) {
+                        try {
+                            decHexReprLbl.setText(String.format("0x%x", Integer.parseInt(text)));
+                        }
+                        catch (Exception e){
+                            return null;
+                        }
+                    }
+                    return change;
+                }
+                return null;
+            }));
+
+            if (! oldValue.isEmpty()){
+                try {
+                    int val = Integer.parseInt(oldValue, 10);
+                    readBufferSizeTf.setText(Integer.toString(val));
+                    decHexReprLbl.setText(String.format("0x%x", val));
+                }
+                catch (Exception e){
+                    readBufferSizeTf.setText("0");
+                    decHexReprLbl.setText("0x0");
+                }
+            }
+        });
+        MenuItem hexItem = new MenuItem("Hex");
+
+        hexItem.setOnAction(event -> {
+            dexHexMenuItem.setText("Hex");
+
+            String oldValue = decHexReprLbl.getText();
+
+            readBufferSizeTf.setTextFormatter(new TextFormatter<>(change -> {
+                String text = change.getControlNewText();
+                if (text.matches("^[0-9a-fA-F]{0,}$")) {
+                    if (! text.isEmpty() ) {
+                        try {
+                            decHexReprLbl.setText(String.format("%d", Integer.parseInt(text, 16)));
+                        }
+                        catch (Exception e){
+                            return null;
+                        }
+                    }
+                    return change;
+                }
+                return null;
+            }));
+
+            if (! oldValue.isEmpty()){
+                try {
+                    int val = Integer.decode(oldValue);
+                    readBufferSizeTf.setText(String.format("%x", val));
+                    decHexReprLbl.setText(Integer.toString(val));
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                    readBufferSizeTf.setText("0");
+                    decHexReprLbl.setText("0");
+                }
+            }
+        });
+
+        dexHexMenuItem.getItems().add(decItem);
+        dexHexMenuItem.getItems().add(hexItem);
 
         saveToLbl.setText(pref.getSaveTo());
         changeSaveToBtn.setOnAction(event -> setSaveToFolder());
@@ -99,6 +177,11 @@ public class LandingPageController implements Initializable {
 
         startBtn.setOnAction(event -> startProcess());
         stopBtn.setOnAction(event -> stopProcess());
+
+        if (pref.getBufAsHex())
+            hexItem.fire();
+        else
+            decItem.fire();
     }
 
     private TextFormatter getNumericTextFormatter(){
@@ -107,6 +190,12 @@ public class LandingPageController implements Initializable {
                 return change;
             return null;
         });
+    }
+
+    private int getBufferSize() throws NumberFormatException {
+        if (dexHexMenuItem.getText().equals("Dec"))
+            return Integer.parseInt(readBufferSizeTf.getText());
+        return Integer.parseInt(readBufferSizeTf.getText(), 16);
     }
 
     private void setSaveToFolder() {
@@ -140,6 +229,8 @@ public class LandingPageController implements Initializable {
     }
 
     private void startProcess(){
+        System.out.println(getBufferSize());
+
         logArea.clear();
         if (writeOnStartRb.isSelected() && writeOnStartFile == null){
             logArea.appendText("'Write on start' option selected but no file defined\n");
@@ -158,7 +249,7 @@ public class LandingPageController implements Initializable {
                 Integer.parseInt(devConfigurationTf.getText()),
                 handleKernelDrvDetachCb.isSelected(),
                 mandatorySoftResetCb.isSelected(),
-                Integer.parseInt(readBufferSizeTf.getText()),
+                getBufferSize(),
                 saveToLbl.getText(),
                 readOnStartRb.isSelected(),
                 writeOnStartFile
@@ -211,9 +302,11 @@ public class LandingPageController implements Initializable {
         pref.setSaveTo(saveToLbl.getText());
 
         try {
-            if ((intValue = Integer.parseInt(readBufferSizeTf.getText())) > 0)
+            if ( (intValue = getBufferSize()) > 0)
                 pref.setReadBufferSize(intValue);
         }
         catch (NumberFormatException e){ e.printStackTrace(); }
+
+        pref.setBufAsHex(dexHexMenuItem.getText().equals("Hex"));
     }
 }

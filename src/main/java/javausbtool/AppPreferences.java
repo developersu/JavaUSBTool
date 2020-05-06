@@ -63,4 +63,7 @@ public class AppPreferences {
 
     public int getReadBufferSize(){ return preferences.getInt("read_buffer_size", 512); }
     public void setReadBufferSize(int value){ preferences.putInt("read_buffer_size", value); }
+
+    public boolean getBufAsHex(){ return preferences.getBoolean("buf_as_hex", false); }
+    public void setBufAsHex(boolean value){preferences.putBoolean("buf_as_hex", value);}
 }
