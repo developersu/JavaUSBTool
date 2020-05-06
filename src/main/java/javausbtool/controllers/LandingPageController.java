@@ -229,8 +229,6 @@ public class LandingPageController implements Initializable {
     }
 
     private void startProcess(){
-        System.out.println(getBufferSize());
-
         logArea.clear();
         if (writeOnStartRb.isSelected() && writeOnStartFile == null){
             logArea.appendText("'Write on start' option selected but no file defined\n");
