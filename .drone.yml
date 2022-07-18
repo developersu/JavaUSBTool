@@ -16,7 +16,7 @@ steps:
     image: alpine:latest
     commands:
       - mkdir -p /builds/javausbtool
-      - cp target/JavaUSBTool-*jar /builds/javausbtool/
+      - cp target/javausbtool-*jar /builds/javausbtool/
     volumes:
       - name: builds
         path: /builds
