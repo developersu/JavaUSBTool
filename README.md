@@ -1,5 +1,7 @@
 # JavaUSBTool
 
+[![status-badge](https://ci.redrise.ru/api/badges/9/status.svg)](https://ci.redrise.ru/repos/9)
+
 Dumb tool to dump USB packets to files (Bulk transfer)
 
 GitHub mirror. [Click here to get it from independent source code location](https://git.redrise.ru/desu/JavaUSBTool)
